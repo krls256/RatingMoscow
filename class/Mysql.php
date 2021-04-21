@@ -1,13 +1,15 @@
 <?php
-$host = '127.0.0.1';
+
+include_once "credentials.php";
+$host = $dbCredentials['host'];
 //$host = 'localhost';
-$user = 'root';
+$user = $dbCredentials['user'];
 //$user = 'ca88265373_rev';
-$pass = "12345";
+$pass = $dbCredentials['pass'];
 //$pass = "%e43DgcR";
-$db   = 'rating_moscow';
+$db   = $dbCredentials['db'];
 //$db   = 'ca88265373_rev';
-$charset = 'utf8';
+$charset = $dbCredentials['charset'];
 //$charset = 'utf8';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
