@@ -1,0 +1,11 @@
+Options +FollowSymLinks
+AddDefaultCharset UTF-8
+
+RewriteEngine on
+
+ErrorDocument 404 /404
+
+RewriteCond %{REQUEST_FILENAME} !^favicon\.ico
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^([^/.]+)$ $1.php [L]
