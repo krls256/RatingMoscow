@@ -9,13 +9,18 @@ require_once ROOT_DIR . '/class/Mysql.php';
 
 abstract class Migration
 {
-    // Предполагается что код будет исполнятся через cli
+    protected $table;
     protected $PDO;
-    public function __construct(PDO $PDO) {
+    // Предполагается что код будет исполнятся через cli
+    public function __construct(PDO $PDO, $table) {
         $this->PDO = $PDO;
+        $this->table = $table;
     }
 
     public abstract function up();
 
-    public abstract function down();
+    public function down() {
+        $table = $this->table;
+        $this->PDO->exec("DROP TABLE IF EXISTS $table");
+    }
 }

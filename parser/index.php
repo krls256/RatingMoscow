@@ -46,8 +46,7 @@
         $m = '12';
         break;
     }
-
-    $string = $array[0].'.'.$m.'.'.$array[2].' '.$array[3];
+    $string = $array[0].'.'.($m ?? null).'.'.$array[2].' '. ($array[3] ?? '');
     $time = strtotime($string);
 
     if($time == ''){
@@ -97,9 +96,9 @@
             'pars_id'     => $pars_idQuery,
             'view'        => 'yell'
           );
-
           try{
             $query = $PDO->prepare("INSERT INTO `review`(`fio`, `email`, `rev`, `service`, `text`, `type`, `moderation`, `id_com`, `data`, `pars_id`, `view`) VALUES (:fio, :email, :rev, :service, :discription, :type, 0, :id_com, :data, :pars_id, :view)");
+
             $query->execute($params);
           }catch(PDOException $e){
             exit('Произошла ошыбка: '.$e->getMassage());
@@ -112,7 +111,9 @@
     $i++;
   }while ($test);
 
-  if($query){
+  if($query ?? null){
     echo 'ok';
+  } else {
+      echo 'Что-то пошло не так';
   }
 

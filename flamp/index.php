@@ -1,7 +1,7 @@
 <?php
-
-include '../class/Mysql.php';
-include 'phpQuery/phpQuery.php';
+include_once __DIR__ . '/../config.php';
+include_once ROOT_DIR . '/class/Mysql.php';
+include_once ROOT_DIR . '/parser/phpQuery.php';
 
 //Запрос обязательно должен быть ajax-ом
 if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) && empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
@@ -41,7 +41,6 @@ while ( $next_link )
 {
   $html = get_html($next_link);
   $data = json_decode($html, true);
-
   if ( $data['status'] != 'success') {
     exit('Ошибка!');
   } 
@@ -76,7 +75,6 @@ while ( $next_link )
         'pars_id'     => $review_id,
         'view'        => 'flamp'
       );
-
       try{
         $query = $PDO->prepare("INSERT INTO `review`(`fio`, `email`, `rev`, `service`, `text`, `type`, `moderation`, `id_com`, `data`, `pars_id`,`view`) VALUES (:fio, :email, :rev, :service, :discription, :type, 0, :id_com, :data, :pars_id, :view)");
         $query->execute($params);

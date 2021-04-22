@@ -46,7 +46,6 @@
   if($type == 'comment'){
     $rev  = $PDO->query("SELECT * FROM `comment` WHERE `moderation` = 0" );
   }
-
   switch ($type) {
     case 'flamp':
       $panelTitle = 'отзывов с FLAMP.RU';
@@ -56,6 +55,9 @@
       break;
     case 'user':
       $panelTitle = 'отзывов пользователей';
+      break;
+	  case 'comment':
+      $panelTitle = 'комментариев';
       break;
   }
 ?>

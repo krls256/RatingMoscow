@@ -10,16 +10,8 @@ require_once ROOT_DIR . '/migrations/seeders/DumpSeeder.php';
 
 if (isset($argv)) // запуск из командной строки
 {
-    $seeders = [
-        DumpSeeder::class
-    ];
-
-    foreach ($seeders as $seeder) {
-        $seederObj = new $seeder($PDO);
-        $seederObj->run();
-        echo $seeder . '::run() - выполнена' . "\n";
-    }
+    $seederObj = new DumpSeeder($PDO);
+    $seederObj->run();
 } else {
-    header('HTTP/1.0 404 not found');
-    exit();
+    header('Location: /404');
 }

@@ -10,12 +10,9 @@ require_once ROOT_DIR . '/migrations/migrations/Migration.php';
 
 class SettingsMigration extends Migration
 {
-    private $table;
-
     public function __construct(PDO $PDO)
     {
-        parent::__construct($PDO);
-        $this->table = 'setting';
+        parent::__construct($PDO, 'setting');
     }
 
     public function up()
@@ -28,11 +25,5 @@ class SettingsMigration extends Migration
             'contact_title VARCHAR(120)', 'contact_des VARCHAR(160)', 'contact_city VARCHAR(100)', 'ya_code VARCHAR(100)'];
         $column = implode(', ', $column);
         $this->PDO->exec("CREATE TABLE IF NOT EXISTS $table ($column) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;");
-    }
-
-    public function down()
-    {
-        $table = $this->table;
-        $this->PDO->exec("DROP TABLE IF EXISTS $table");
     }
 }

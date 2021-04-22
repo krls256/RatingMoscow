@@ -10,12 +10,10 @@ require_once ROOT_DIR . '/migrations/migrations/Migration.php';
 
 class CompanyMigration extends Migration
 {
-    private $table;
 
     public function __construct(PDO $PDO)
     {
-        parent::__construct($PDO);
-        $this->table = 'company';
+        parent::__construct($PDO, 'company');
     }
 
     public function up()
@@ -29,12 +27,6 @@ class CompanyMigration extends Migration
                 'description_hr TEXT', 'rating_hr DOUBLE', 'otrude_id INT(11) NULL', 'email_hr VARCHAR(100) NULL'];
         $column = implode(', ', $column);
         $this->PDO->exec("CREATE TABLE IF NOT EXISTS $table ($column) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;");
-    }
-
-    public function down()
-    {
-        $table = $this->table;
-        $this->PDO->exec("DROP TABLE IF EXISTS $table");
     }
 
 }

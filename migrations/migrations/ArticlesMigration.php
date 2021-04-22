@@ -10,12 +10,9 @@ require_once ROOT_DIR . '/migrations/migrations/Migration.php';
 
 class ArticlesMigration extends Migration
 {
-    private $table;
-
     public function __construct(PDO $PDO)
     {
-        parent::__construct($PDO);
-        $this->table = 'articles';
+        parent::__construct($PDO, 'articles');
     }
 
     public function up()
@@ -25,12 +22,6 @@ class ArticlesMigration extends Migration
             'autor VARCHAR(50)', 'file VARCHAR(50)', 'visit INT(11)'];
         $column = implode(', ', $column);
         $this->PDO->exec("CREATE TABLE IF NOT EXISTS $table ($column) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;");
-    }
-
-    public function down()
-    {
-        $table = $this->table;
-        $this->PDO->exec("DROP TABLE IF EXISTS $table");
     }
 
 }

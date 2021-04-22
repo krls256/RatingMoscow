@@ -15,7 +15,7 @@
   <div class="page__layout">
     <?php include 'modules/menu.php' ?>
     <div class="content">
-      <? if(isset($_GET['id']) != ''){
+      <?php if(isset($_GET['id']) != ''){
          $id = (int) $_GET['id'];
 
          $query = $PDO->query("SELECT * FROM `articles` WHERE `id` = $id LIMIT 1");
@@ -45,7 +45,7 @@
             <input type="submit" name="" value="Сохранить" class="submit">
           </form>
         </div>
-      <?}else{?>
+      <?php }else{ ?>
       <div class="block">
         <h1 class="block__title">Добавить статью</h1>
         <div class="login__error"></div>
@@ -84,9 +84,9 @@
           </div>
         </div>
       </div>
-      <?}
+      <?php }
 
-      }?>
+      } ?>
     </div>
   </div>
 
