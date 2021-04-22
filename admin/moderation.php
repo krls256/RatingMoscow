@@ -2,8 +2,8 @@
   include "function.php"; //подключаем файл обработчик
 
   $type      = trim( $_GET['type'] ); //Тип страницы
-  $id_filter = (int) $_GET['id']; //Id компании для фильтрации
-  $page      = (int) $_GET['page']; //Номера страниц
+  $id_filter = (int) ($_GET['id'] ?? null); //Id компании для фильтрации
+  $page      = (int) ($_GET['page'] ?? null); //Номера страниц
   $show = 20;
 
   if( !is_numeric( $page ) or $page < 1 ) $page = 1;
@@ -13,6 +13,7 @@
   //проверяем существует ли фильтр
   if( empty( $_GET['id'] ) or $id_filter == '' or $id_filter == 0){
     $id_filter  = '';
+    $sql_filter = '';
   }else{
     $sql_filter = 'and `id_com` ='.$id_filter;
     $id_page    = '&id='.$id_filter;
@@ -76,10 +77,10 @@
       <!--Верхняя панель-->
       <div class="block mod_title" style="padding:15px; width:99.2%">
         <h2>Модерация <?=$panelTitle?></h2>
-        <? if( $type == 'flamp' or  $type == 'yell' or $type == 'user'){?>
+        <?php if( $type == 'flamp' or  $type == 'yell' or $type == 'user'){ ?>
           <select class="filter_moderation" id="filter_moderation" data-link="<?=$type?>">
             <option value="0">Все</option>
-            <?
+            <?php
             $queryCompany = $PDO->query("SELECT `id`, `name` FROM `company`");
 
             while($row = $queryCompany->fetch()){
@@ -91,26 +92,27 @@
 
             ?>
               <option value="<?=$row['id']?>" <?=$com_id==$id_filter?'selected':'';?>><?=$row['name']?> (<?=$countRewiev->fetch()[0]?>)</option>
-            <?}?>
+            <?php } ?>
 
           </select>
-        <?}?>
+        <?php } ?>
       </div>
 
-      <? if( ($type == 'flamp' or  $type == 'yell' or $type == 'user') and $rev1->rowCount() <= 0 and $rev2->rowCount() <= 0){?>
+      <?php if( ($type == 'flamp' or  $type == 'yell' or $type == 'user') and $rev1->rowCount() <= 0 and
+	      $rev2->rowCount() <= 0){ ?>
             <div class="block" style="color: #828282; text-align: center; font-size:21px; font-weight: bold;">Отзывов пока нет!</div>
-      <? }else
+      <?php }else
          if($type == 'comment' and $rev->rowCount() <= 0){ ?>
            <div class="block" style="color: #828282; text-align: center; font-size:21px; font-weight: bold;">Комментариев пока нет!</div>
-      <? }?>
+      <?php } ?>
 
       <div class="revFlex">
-        <? if( $type == 'flamp' or  $type == 'yell' or $type == 'user'){?>
+        <?php if( $type == 'flamp' or  $type == 'yell' or $type == 'user'){ ?>
 
               <!-- Блок отзывов -->
               <!--Положительные отзывы-->
               <div class="revFlex__item">
-              <?while($row = $rev1->fetch()){?>
+              <?php while($row = $rev1->fetch()){ ?>
                   <div class="block">
                     <div class="header-mod">
                       <div class="header-mod__user"><?=$row['fio']?> об <span><?=infoCompany($row['id_com'], $PDO)->name?></span></div>
@@ -128,12 +130,12 @@
                       <buttom class="submit submit--red" data-id="<?=$row['id']?>" data-key="<?=substr(md5($row['id']), 0, 8);?>" data-type="1">Отключить</buttom>
                     </div>
                   </div>
-                <?}?>
+                <?php } ?>
                 </div>
 
                 <!--отрицательные отзывы-->
                 <div class="revFlex__item">
-                <?while($row = $rev2->fetch()){?>
+                <?php while($row = $rev2->fetch()){ ?>
                     <div class="block">
                       <div class="header-mod">
                         <div class="header-mod__user"><?=$row['fio']?> об <span><?=infoCompany($row['id_com'], $PDO)->name?></span></div>
@@ -151,15 +153,15 @@
                         <buttom class="submit submit--red" data-id="<?=$row['id']?>" data-key="<?=substr(md5($row['id']), 0, 8);?>" data-type="1">Отключить</buttom>
                       </div>
                     </div>
-                  <?}?>
+                  <?php } ?>
                   </div>
 
-          <?}else{?>
+          <?php }else{ ?>
 
             <!-- Блок комментариев -->
 
             <div class="revFlex__item">
-              <?while($row = $rev->fetch()){
+              <?php while($row = $rev->fetch()){
                 //Кому адресован комментарий
                 $id = $row['review'];
                 $commentQuery = $PDO->query("SELECT com.name, rev.fio FROM `company` as com, `review` as rev WHERE com.id = rev.id_com and rev.id = $id");
@@ -178,13 +180,13 @@
                     <buttom class="submit submit--red" data-id="<?=$row['id']?>" data-key="<?=substr(md5($row['id']), 0, 8);?>" data-type="2">Отключить</buttom>
                   </div>
                 </div>
-              <?}?>
+              <?php } ?>
             </div>
 
-          <?}?>
+          <?php } ?>
         </div>
-      <? if( ( $pages-1 ) != 1 and ( $type == 'flamp' or  $type == 'yell' or $type == 'user') ){?>
-        <div class="page_nav"><?
+      <?php if( ( $pages-1 ) != 1 and ( $type == 'flamp' or  $type == 'yell' or $type == 'user') ){ ?>
+        <div class="page_nav"><?php
           if( $page>=1 ) {
             echo '<a href="moderation?type='.$type.$id_page.'" class="oneLink"></a>'; //На первую
             echo '<a href="moderation?type='.$type.'&page='.$page.$id_page.'" class="nav-prev"></a>'; //Назад
@@ -208,9 +210,9 @@
             if( $j > $page && ( $page+2 ) < $j) {
               echo '<a href="moderation?type='.$type.'&page=' . ($page+2) . $id_page.'" class="nav-next"></a>';
               echo '<a href="moderation?type='.$type.'&page=' . ($j-1) . $id_page.'" class="lastLimk"></a>';
-            }?>
+            } ?>
           </div>
-        <?}?>
+        <?php } ?>
     </div>
   </div>
   <script src="/js/formstyler.js"></script>

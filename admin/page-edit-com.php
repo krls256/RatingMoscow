@@ -34,7 +34,7 @@
           </div>
         </div>
       </div>
-      <?}?>
+      <?php } ?>
     </div>
   </div>
   <script src="https://api-maps.yandex.ru/2.1/?apikey=a6da9518-c21f-41f1-80f6-8fb6ae90ea25&lang=ru_RU" type="text/javascript"></script>

@@ -54,26 +54,31 @@
             <p>
               <span>Позиция</span>
               <select class="width-auto" id="position" name="position">
-                <option value="0" <? echo $row['position']== 0?'selected':'';?> >По умолчанию</option>
-                <option value="1" <? echo $row['position']== 1?'selected':'';?>>Первое(1) место</option>
-                <option value="2" <? echo $row['position']== 2?'selected':'';?>>Второе(2) место</option>
-                <option value="3" <? echo $row['position']== 3?'selected':'';?>>Третье(3) место</option>
-                <option value="4" <? echo $row['position']== 4?'selected':'';?>>Четвёртое(4) место</option>
-                <option value="5" <? echo $row['position']== 5?'selected':'';?>>Пятое(5) место</option>
-                <option value="6" <? echo $row['position']== 6?'selected':'';?>>Шестое(6) место</option>
-                <option value="7" <? echo $row['position']== 7?'selected':'';?>>Седьмое(7) место</option>
-                <option value="8" <? echo $row['position']== 8?'selected':'';?>>Восьмое(8) место</option>
-                <option value="9" <? echo $row['position']== 9?'selected':'';?>>Девятое(9) место</option>
-                <option value="10" <? echo $row['position']== 10?'selected':'';?>>Десятое(10) место</option>
+                <option value="0" <?php echo $row['position']== 0?'selected':''; ?> >По умолчанию</option>
+                <option value="1" <?php echo $row['position']== 1?'selected':''; ?>>Первое(1) место</option>
+                <option value="2" <?php echo $row['position']== 2?'selected':''; ?>>Второе(2) место</option>
+                <option value="3" <?php echo $row['position']== 3?'selected':''; ?>>Третье(3) место</option>
+                <option value="4" <?php echo $row['position']== 4?'selected':''; ?>>Четвёртое(4) место</option>
+                <option value="5" <?php echo $row['position']== 5?'selected':''; ?>>Пятое(5) место</option>
+                <option value="6" <?php echo $row['position']== 6?'selected':''; ?>>Шестое(6) место</option>
+                <option value="7" <?php echo $row['position']== 7?'selected':''; ?>>Седьмое(7) место</option>
+                <option value="8" <?php echo $row['position']== 8?'selected':''; ?>>Восьмое(8) место</option>
+                <option value="9" <?php echo $row['position']== 9?'selected':''; ?>>Девятое(9) место</option>
+                <option value="10" <?php echo $row['position']== 10?'selected':''; ?>>Десятое(10) место</option>
+                <option value="11" <?php echo $row['position']== 11?'selected':''; ?>>Одиннадцатое(11) место</option>
+                <option value="12" <?php echo $row['position']== 12?'selected':''; ?>>Двенадцатое(12) место</option>
+                <option value="13" <?php echo $row['position']== 13?'selected':''; ?>>Тринадцатое(13) место</option>
+                <option value="14" <?php echo $row['position']== 14?'selected':''; ?>>Четырнадцатое(14) место</option>
+                <option value="15" <?php echo $row['position']== 15?'selected':''; ?>>Пятнадцатое(15) место</option>
 
               </select>
             </p>
             <p>
               <span>Город</span>
               <select class="width-auto" id="city" name="city" data-check="true">
-                <option value="1" <? echo $row['sity']== 1?'selected':'';?> >Москва и Московская обл.</option>
-                <option value="2" <? echo $row['sity']== 2?'selected':'';?>>Тула и Тульская обл.</option>
-                <option value="3" <? echo $row['sity']== 3?'selected':'';?>>Республика Крым</option>
+                <option value="1" <?php echo $row['sity']== 1?'selected':''; ?> >Москва и Московская обл.</option>
+                <option value="2" <?php echo $row['sity']== 2?'selected':''; ?>>Тула и Тульская обл.</option>
+                <option value="3" <?php echo $row['sity']== 3?'selected':''; ?>>Республика Крым</option>
               </select>
             </p>
             <p>
@@ -152,7 +157,7 @@
           </p>
           <p style="display:block; order:4px; width:100%; margin-left:30px;">
             <span>Описание для рейтинга HR</span>
-            <textarea name="description_hr" data-check="true" class="edit-input__text-hr"><?=$row['description_hr']?></textarea>
+            <textarea name="description_hr" class="edit-input__text-hr"><?=$row['description_hr']?></textarea>
             <input type="submit" name="" value="Сохранить" class="submit">
           </p>
         </form>

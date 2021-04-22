@@ -3,8 +3,8 @@
 session_start();
 
 //Проверяем авторизацию пользователя
-if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) && empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
-  if(empty($_SESSION['id']) and $_SESSION['id'] == ''){
+if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) && empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+  if(empty($_SESSION['id']) && $_SESSION['id'] == '' && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest'){
     header('Location: /admin/login');
   }
 }
@@ -31,7 +31,8 @@ function typeRemont($a){
 }
 
 function setting(\PDO $PDO) {
-  $sub = array_shift((explode('.', $_SERVER['HTTP_HOST'])));
+    $exploded = explode('.', $_SERVER['HTTP_HOST']);
+  $sub = array_shift($exploded);
 
   if ($sub =='rating-remont')
     $domen = 'index';
@@ -100,7 +101,7 @@ function array_key_last( $array ) {
   
 }
 
-if($_GET['func'] == 'edit_setting' and ($_SESSION['id'] != '')){
+if(($_GET['func'] ?? '') == 'edit_setting' and ($_SESSION['id'] != '')){
   $city   = setting($PDO)['id'];  // ID города
   $data   = $_POST;               // Полученые данные
   $keys   = '';                   // Подготавливаем поля для записи
@@ -144,7 +145,7 @@ if($_GET['func'] == 'edit_setting' and ($_SESSION['id'] != '')){
 }
 
 
-if($_GET['func'] == 'edit_banner' and ($_SESSION['id'] != '')){
+if(($_GET['func'] ?? '') == 'edit_banner' and ($_SESSION['id'] != '')){
   $size = getimagesize($_FILES['file']['tmp_name']);
 
   //Загрузка логотипа
@@ -170,7 +171,7 @@ if($_GET['func'] == 'edit_banner' and ($_SESSION['id'] != '')){
 }
 
 //Добавление компании
-if($_GET['func'] == 'create-company' and ($_SESSION['id'] != '')){
+if(($_GET['func'] ?? '') == 'create-company' and ($_SESSION['id'] != '')){
 
   //Подготавливаем массив двнных для добовления в базу
   $params = array(
@@ -205,7 +206,7 @@ if($_GET['func'] == 'create-company' and ($_SESSION['id'] != '')){
     exit('input_error');
   }
 
-  if ( $_POST['davCompany'] ) {
+  if ( $_POST['davCompany'] ?? null ) {
     $params['dev'] = true;
   } else {
     $params['dev'] = null;
@@ -227,10 +228,10 @@ if($_GET['func'] == 'create-company' and ($_SESSION['id'] != '')){
   //Проверяем подвязан ли id flamp
   if ( $params['flamp'] ) {
     $flampQuery = $PDO->prepare("SELECT count(*) as `count` FROM  `company` WHERE `flamp` =  ? and `yell` IS NOT NULL");
-    $flampQuery->execute($params['flamp']);
+    $flampQuery->execute([$params['flamp']]);
     $flampGet = $flampQuery->fetch();
 
-    if($flampQuery['count'] >= 1){
+    if($flampGet['count'] >= 1){
       exit('flamp_error');
     }
   } else {
@@ -269,7 +270,7 @@ if($_GET['func'] == 'create-company' and ($_SESSION['id'] != '')){
   }
 
 //Одобрить отзыв
-if($_GET['func'] == 'review-good' and ($_SESSION['id'] != '')){
+if(($_GET['func'] ?? '') == 'review-good' and ($_SESSION['id'] != '')){
 
   //проверям подмену id
   if(substr(md5($_POST['id']), 0, 8) !=  $_POST['key']){
@@ -288,7 +289,7 @@ if($_GET['func'] == 'review-good' and ($_SESSION['id'] != '')){
 }
 
 //Удаляем отзывы
-if($_GET['func'] == 'review-del' and ($_SESSION['id'] != '')){
+if(($_GET['func'] ?? '') == 'review-del' and ($_SESSION['id'] != '')){
   $id = (int) $_POST['id'];
 
   //проверям подмену id
@@ -307,7 +308,7 @@ if($_GET['func'] == 'review-del' and ($_SESSION['id'] != '')){
 }
 
 //Одобрить комментарий
-if($_GET['func'] == 'comment-good' and ($_SESSION['id'] != '')){
+if(($_GET['func'] ?? '') == 'comment-good' and ($_SESSION['id'] != '')){
 
   //проверям подмену id
   if(substr(md5($_POST['id']), 0, 8) !=  $_POST['key']){
@@ -326,7 +327,7 @@ if($_GET['func'] == 'comment-good' and ($_SESSION['id'] != '')){
 }
 
 //Удаляем Комментарий
-if($_GET['func'] == 'comment-del' and ($_SESSION['id'] != '')){
+if(($_GET['func'] ?? '') == 'comment-del' and ($_SESSION['id'] != '')){
   $id = (int) $_POST['id'];
 
   //проверям подмену id
@@ -344,7 +345,7 @@ if($_GET['func'] == 'comment-del' and ($_SESSION['id'] != '')){
   }
 }
 
-if($_GET['func'] == 'create-artical' and ($_SESSION['id'] != '')){
+if(($_GET['func'] ?? '') == 'create-artical' and ($_SESSION['id'] != '')){
 
   if($_POST['title'] == '' or $_POST['text'] == '' or $_POST['autor'] == ''){
     exit('text_error');
@@ -386,7 +387,7 @@ if($_GET['func'] == 'create-artical' and ($_SESSION['id'] != '')){
   }
 }
 
-if($_GET['func'] == 'del_company' and ($_SESSION['id'] != '')){
+if(($_GET['func'] ?? '') == 'del_company' and ($_SESSION['id'] != '')){
   $id = (int) $_POST['id'];
 
   //проверям подмену id
@@ -406,7 +407,7 @@ if($_GET['func'] == 'del_company' and ($_SESSION['id'] != '')){
 }
 
 //Редактирование отзывов
-if($_GET['func'] == 'review_edit' and ($_SESSION['id'] != '')){
+if(($_GET['func'] ?? '') == 'review_edit' and ($_SESSION['id'] != '')){
  if(!is_numeric($_POST['id'])){
    exit('Что-то пошло не так...');
  }
@@ -443,7 +444,7 @@ if($_GET['func'] == 'review_edit' and ($_SESSION['id'] != '')){
     echo 'ok';
 }
 
-if($_GET['func'] == 'review-hr-edit' and ($_SESSION['id'] != '')){
+if(($_GET['func'] ?? '') == 'review-hr-edit' and ($_SESSION['id'] != '')){
   if( !is_numeric($_POST['id']) )
     exit('Что-то пошло не так...');
 
@@ -464,7 +465,7 @@ if($_GET['func'] == 'review-hr-edit' and ($_SESSION['id'] != '')){
     echo 'ok'; 
 }
 
-if($_GET['func'] == 'review-hr-del' and ($_SESSION['id'] != '')) { 
+if(($_GET['func'] ?? '') == 'review-hr-del' and ($_SESSION['id'] != '')) {
   if( !is_numeric($_POST['id']) )
     exit('Что-то пошло не так...');
 
@@ -475,7 +476,7 @@ if($_GET['func'] == 'review-hr-del' and ($_SESSION['id'] != '')) {
     echo 'ok';
 }
 
-if($_GET['func'] == 'edit_company' and ($_SESSION['id'] != '')){
+if(($_GET['func'] ?? '') == 'edit_company' and ($_SESSION['id'] != '')){
 
     if(substr(md5($_POST['id']), 0, 8) != $_POST['hash']){
       exit('fatal');
@@ -569,7 +570,7 @@ if($_GET['func'] == 'edit_company' and ($_SESSION['id'] != '')){
       echo 'ok';
 }
 
-if($_GET['func'] == 'edit_article' and ($_SESSION['id'] != '')){
+if(($_GET['func'] ?? '') == 'edit_article' and ($_SESSION['id'] != '')){
 
   if(substr(md5($_POST['id']), 0, 8) != $_POST['key']){
     exit('fatal');
@@ -617,7 +618,7 @@ if($_GET['func'] == 'edit_article' and ($_SESSION['id'] != '')){
     echo true;
 }
 
-if($_GET['func'] == 'advice' and ($_SESSION['id'] != '')){
+if(($_GET['func'] ?? '') == 'advice' and ($_SESSION['id'] != '')){
   for($i=1; $i<8;$i++){
     $adviceName = $_POST["advice-" . $i];
     $QueryUpdateAdvice = $PDO->prepare("UPDATE `advice` SET `text` = ? WHERE `id` = ?");
@@ -626,4 +627,3 @@ if($_GET['func'] == 'advice' and ($_SESSION['id'] != '')){
 
   echo 'ok';
 }
-?>

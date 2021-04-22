@@ -25,9 +25,9 @@
               <select class="width-auto" id="company" name="company">
                 <?php
                  $comName = $PDO->query("SELECT  `name`,`yell` FROM `company` WHERE yell != ''");
-                 while($row = $comName->fetch()){?>
+                 while($row = $comName->fetch()){ ?>
                   <option value="<?=$row['yell']?>"><?=$row['name']?></option>
-                <?}?>
+                <?php } ?>
               </select>
             </p>
           </div>

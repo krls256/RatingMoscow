@@ -62,7 +62,7 @@
             <p>
               <span>Место нахождения офиса</span>
               <div id="map" class="map"></div>
-              <input type="hidden" name="map" data-check="true">
+              <input type="hidden" name="map">
             </p>
             <p class="checkbox_wraper">
               <label class="label--checkbox">
