@@ -1,7 +1,9 @@
 <?php
+
+require_once "config.php";
   ini_set("session.cookie_samesite", 'Strict');
   require  "class/Mysql.php";
-  session_start();
+
 
 class Func{
 

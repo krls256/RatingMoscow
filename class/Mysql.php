@@ -2,14 +2,14 @@
 
 include_once "credentials.php";
 $host = $dbCredentials['host'];
-//$host = 'localhost';
 $user = $dbCredentials['user'];
-//$user = 'ca88265373_rev';
 $pass = $dbCredentials['pass'];
-//$pass = "%e43DgcR";
 $db   = $dbCredentials['db'];
-//$db   = 'ca88265373_rev';
 $charset = $dbCredentials['charset'];
+//$host = 'localhost';
+//$user = 'ca88265373_rev';
+//$pass = "%e43DgcR";
+//$db   = 'ca88265373_rev';
 //$charset = 'utf8';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
